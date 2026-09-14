@@ -117,6 +117,15 @@ class EndToEndTests(IsolatedEnv):
         self.assertEqual(report.tests[0]["exit_code"], 1)
         self.assertIsNotNone(report.patch)
 
+    def test_build_junk_is_excluded_from_patch(self):
+        request = "FAKE: write __pycache__/x.cpython-314.pyc <<junk>>\nFAKE: write real.txt <<kept>>"
+        built = build_task(self.repo_a, SubmitOptions(request=request, session="none"))
+        rec = submit_task(self.ta, self.sealer, built)
+        self.worker.run_once()
+        _, report = fetch_result(self.ta, self.sealer, rec.task_id)
+        self.assertEqual(report.outcome, OUTCOME_SUCCESS, report)
+        self.assertEqual(report.patch["changed_paths"], ["real.txt"])
+
     def test_no_changes_outcome(self):
         built = build_task(self.repo_a, SubmitOptions(request="FAKE: nothing", session="none"))
         rec = submit_task(self.ta, self.sealer, built)

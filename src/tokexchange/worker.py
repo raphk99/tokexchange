@@ -26,6 +26,11 @@ from .transport.base import TaskRecord
 
 log = logging.getLogger("tokexchange.worker")
 
+# Patterns added to the task worktree's info/exclude so `git add -A` skips them even when the
+# repository has no .gitignore. A file the repository already tracks is unaffected.
+DEFAULT_EXCLUDES = ["__pycache__/", "*.pyc", ".pytest_cache/", ".mypy_cache/", ".ruff_cache/", "node_modules/",
+                    ".DS_Store", "*.egg-info/", ".venv/", "venv/"]
+
 
 class WorkspaceError(RuntimeError):
     pass
@@ -126,7 +131,8 @@ class Worker:
             exclude = worktree / exclude
         exclude.parent.mkdir(parents=True, exist_ok=True)
         with exclude.open("a") as fh:
-            fh.write("\n.tokexchange/\n")
+            fh.write("\n# tokexchange: helper files and common build junk never belong in a patch\n")
+            fh.write("\n".join([".tokexchange/", *DEFAULT_EXCLUDES]) + "\n")
         # Baseline: the submitter's uncommitted work.
         baseline = repo.base_commit
         patch_file = bundle_dir / "uncommitted.patch"
