@@ -203,7 +203,7 @@ def cmd_worker(args, cfg: Config) -> int:
         _print_record(rec, verbose=True)
         return 0
     print(f"worker {opts.worker_id} polling {cfg.coordinator_url} every {opts.poll_interval}s (agent={agent.kind}, "
-          f"concurrency={opts.concurrency}); Ctrl-C to stop")
+          f"concurrency={opts.concurrency}); Ctrl-C to stop", flush=True)
     try:
         worker.run_forever()
     except KeyboardInterrupt:
@@ -217,7 +217,7 @@ def cmd_coordinator(args, cfg: Config) -> int:
     server = CoordinatorServer(Path(args.data_dir), Path(args.tokens), host=args.host, port=args.port,
                                tls_cert=Path(args.tls_cert) if args.tls_cert else None,
                                tls_key=Path(args.tls_key) if args.tls_key else None, verbose=args.verbose)
-    print(f"coordinator listening on {server.url} (data: {args.data_dir}, tokens: {args.tokens})")
+    print(f"coordinator listening on {server.url} (data: {args.data_dir}, tokens: {args.tokens})", flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

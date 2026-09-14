@@ -106,6 +106,7 @@ it runs in. Submit without `--dry-run`, then fetch and apply as before.
 | Symptom | Fix |
 | --- | --- |
 | `tokexchange list` on A: cannot reach coordinator | Tunnel URL changed or Terminal 2 closed; re-run `tokexchange configure --coordinator …` on A |
+| `cannot reach coordinator … CERTIFICATE_VERIFY_FAILED` | Your Python has no CA bundle: `pip install certifi` (python.org macOS builds: run `Install Certificates.command`); self-signed coordinator cert: set `TOKEXCHANGE_CA_BUNDLE` |
 | `401 invalid or missing token` | Token pasted wrong or roles swapped (A needs `submit`, B needs `work`) |
 | `decryption failed` / `refusing to accept plaintext` | Secrets differ, or `cryptography` missing on one side (`pip install cryptography`) |
 | Worker: `claude is not logged in` | Run `claude` once in a Terminal window on B; or `claude setup-token` and export `CLAUDE_CODE_OAUTH_TOKEN` |
