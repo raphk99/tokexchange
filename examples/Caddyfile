@@ -1,0 +1,7 @@
+# Reverse proxy with automatic HTTPS for the tokexchange coordinator.
+coord.example.com {
+    reverse_proxy 127.0.0.1:8787
+    request_body {
+        max_size 512MB
+    }
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Install: cp examples/com.tokexchange.worker.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/com.tokexchange.worker.plist
+     A LaunchAgent (not a LaunchDaemon) runs inside your GUI login session, so the Keychain-stored Claude login is available. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.tokexchange.worker</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/local/bin/tokexchange</string>
+    <string>worker</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key><string>/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin</string>
+  </dict>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>StandardOutPath</key><string>/tmp/tokexchange-worker.log</string>
+  <key>StandardErrorPath</key><string>/tmp/tokexchange-worker.log</string>
+</dict>
+</plist>

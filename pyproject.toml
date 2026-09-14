@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tokexchange"
+version = "0.1.0"
+description = "Delegate Claude Code tasks from one laptop to another through a remote coordinator and get back a reviewable git patch."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = []
+
+[project.optional-dependencies]
+crypto = ["cryptography>=41"]
+
+[project.scripts]
+tokexchange = "tokexchange.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
